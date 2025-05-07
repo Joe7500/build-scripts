@@ -20,6 +20,8 @@ rm -rf .repo
 repo init $CRAVE_MANIFEST_ARGS
 cp $CRAVE_YAML .repo/manifests/crave.yaml
 
+set +v
+
 JJ_SPEC="JJ_SPEC:`date | md5sum | cut -d " " -f 1`"
 echo $JJ_SPEC
 
@@ -40,6 +42,8 @@ echo "======================================================="
 echo ""
 echo "starting in 30 seconds"
 sleep 30
+
+set -v
 
 touch $REMOTE_BUSY_LOCK
 
