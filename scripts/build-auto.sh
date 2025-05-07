@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cp -f ~/.gitconfig.bak.http ~/.gitconfig
+
 # Get script dir. Copy pasted from internet.
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
