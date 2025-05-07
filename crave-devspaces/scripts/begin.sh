@@ -7,7 +7,6 @@
 # CRAVE_SCRIPT
 # CRAVE_YAML
 
-set -v
 
 export PATH=~/bin:$PATH
 
@@ -20,7 +19,6 @@ rm -rf .repo
 repo init $CRAVE_MANIFEST_ARGS
 cp $CRAVE_YAML .repo/manifests/crave.yaml
 
-set +v
 
 JJ_SPEC="JJ_SPEC:`date | md5sum | cut -d " " -f 1`"
 echo $JJ_SPEC
