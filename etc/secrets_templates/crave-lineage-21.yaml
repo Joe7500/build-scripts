@@ -1,0 +1,11 @@
+LOS 21:
+  ignoreClientHostname: true
+  project-ids: [72]
+  env:
+    BUCKET_NAME: xxxxxxxx
+    KEY_ENCRYPTION_PASSWORD: xxxxxxxxxx
+    BKEY_ID: xxxxxxxxxxx
+    BAPP_KEY: xxxxxxxxxxxxxx
+    TG_TOKEN: xxxxxxxxxxxxxxxx:xxxxxxxxxxxx_xxxxxxxxxxxx
+    TG_CID: 'xxxxxxxxxx'
+    NTFYSUB: 'xxxxxxxxxxx'
