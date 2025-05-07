@@ -23,6 +23,13 @@ cp $CRAVE_YAML .repo/manifests/crave.yaml
 JJ_SPEC="JJ_SPEC:`date | md5sum | cut -d " " -f 1`"
 echo $JJ_SPEC
 
+if ls $REMOTE_BUSY_LOCK ; then 
+        echo "======================================================="
+	echo "hhmmm. lock file exists: $REMOTE_BUSY_LOCK. You sure? "
+	echo "======================================================="
+	echo ""
+fi
+
 if echo "$@" | grep clean ; then CLEAN='--clean' ; fi
 if echo "$@" | grep resume ; then RESUME='--resume' ; fi
 echo -e "\\a" ; sleep 1 ; echo -e "\\a"
@@ -34,7 +41,6 @@ echo ""
 echo "starting in 30 seconds"
 sleep 30
 
-#if ls $REMOTE_BUSY_LOCK ; then echo "remove REMOTE_BUSY_LOCK" ; exit 1 ; fi
 touch $REMOTE_BUSY_LOCK
 
 curl -s -X POST $URL -d chat_id=$ID -d text="Build $PACKAGE_NAME on crave.io queued. `env TZ=Africa/Harare date`. $JJ_SPEC "
