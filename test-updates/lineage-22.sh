@@ -30,7 +30,7 @@ else
 			exit 1 
 		else
 			git show -q $i > ../commit_msg.txt
-			cat ../commit_msg.txt | grep -iE 'quarter|security|asb '
+			cat ../commit_msg.txt | grep -iE 'quarter|security|asb|cve|qpr'
 			if [ $? -eq 0 ]; then
 				if echo "$@" | grep update ; then echo $CURRENT_COMMIT > ../LAST_COMMIT_lineage-22; fi
 				echo update
