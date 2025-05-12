@@ -58,4 +58,4 @@ source build/envsetup.sh; \
 /usr/bin/bash builder.sh $RESUME $JJ_SPEC "
 
 echo -e "\\a" ; sleep 1 ; echo -e "\\a"
-
+sleep 86400
