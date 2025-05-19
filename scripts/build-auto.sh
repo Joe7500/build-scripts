@@ -26,19 +26,14 @@ for i in crDroidAndroid-14 crDroidAndroid-15 lineage-21 lineage-20 lineage-22 ax
 	if ls $REMOTE_BUSY_LOCK ; then echo "skipping $i" ; continue ; fi
 	bash $i.sh
 	if [ $? -eq 0 ]; then
-		if ! ls $REMOTE_BUSY_LOCK; then
-			echo queue remote
-			touch $REMOTE_BUSY_LOCK
-			echo $i > $REMOTE_BUSY_LOCK
-			cd $CRAVE_ROOT/$i
-			screen -dmS build-remote bash begin.sh
-			#bash begin.sh
-			ls $CRAVE_ROOT/$i
-			cd - 
-		else
-			ls $CRAVE_ROOT/$i
-			break
-		fi
+		echo queue remote
+		touch $REMOTE_BUSY_LOCK
+		echo $i > $REMOTE_BUSY_LOCK
+		cd $CRAVE_ROOT/$i
+		screen -dmS build-remote bash begin.sh
+		bash begin.sh
+		ls $CRAVE_ROOT/$i
+		cd - 
 	fi
 done	
 
