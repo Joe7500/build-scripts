@@ -1,3 +1,2 @@
-build-auto.sh : works, but shell code is beyond awful
 remote : change 'curl'ed urls to new repo
 rethink kernel
