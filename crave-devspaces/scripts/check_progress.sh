@@ -31,10 +31,12 @@ while true; do
         fi
         if echo $MESSAGES | grep -- "$JJ_SPEC" | grep " failed" ; then
                 echo job is failed
+		rm -f $REMOTE_BUSY_LOCK
 		break
         fi
         if echo $MESSAGES | grep -- "$JJ_SPEC" | grep " softfailed" ; then
                 echo job is softfailed
+		rm -f $REMOTE_BUSY_LOCK
 		break
         fi
         if echo $MESSAGES | grep -- "$JJ_SPEC" | grep completed ; then
@@ -49,7 +51,7 @@ while true; do
 		# Do further stuff here
 		
 		rm -rf .repo
-        	rm $REMOTE_BUSY_LOCK
+        	rm -f $REMOTE_BUSY_LOCK
                 break
         fi
 	echo "sleeping"
