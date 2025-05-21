@@ -29,6 +29,8 @@ while true; do
 	echo already queued on crave. locking
         touch $REMOTE_BUSY_LOCK
         continue
+   else
+	echo not queued on crave
    fi
 
    echo no lock found. starting
