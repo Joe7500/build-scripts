@@ -1,6 +1,8 @@
 
 source ../../etc/config.sh
 
+if ! ls .repo ; then bash repo-init.sh ; fi
+
 while true; do
    sleep `shuf -n 1 -i 400-900`
 #   sleep 20

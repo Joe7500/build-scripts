@@ -50,7 +50,7 @@ while true; do
 		cd -
 		# Do further stuff here
 		
-		rm -rf .repo
+		#rm -rf .repo
         	rm -f $REMOTE_BUSY_LOCK
                 break
         fi
@@ -61,7 +61,7 @@ while true; do
         fi
 done
 
-rm -rf .repo
+#rm -rf .repo
 sleep 86400
 
 exit 0
