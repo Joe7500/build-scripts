@@ -31,7 +31,6 @@ for i in crDroidAndroid-14 crDroidAndroid-15 lineage-21 lineage-20 lineage-22 ax
 		echo $i > $REMOTE_BUSY_LOCK
 		cd $CRAVE_ROOT/$i
 		screen -dmS build-remote bash begin.sh
-		bash begin.sh
 		ls $CRAVE_ROOT/$i
 		cd - 
 	fi
