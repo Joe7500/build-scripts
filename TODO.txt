@@ -1,3 +1,4 @@
 remote : change 'curl'ed urls to new repo
 rethink kernel
 genota.sh
+drop b2 bucket
