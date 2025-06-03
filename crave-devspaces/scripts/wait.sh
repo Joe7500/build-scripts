@@ -35,6 +35,14 @@ while true; do
 	echo not queued on crave
    fi
 
+   if echo "$CRAVE_LIST" | grep running ; then
+        echo already running on crave. locking
+        touch $REMOTE_BUSY_LOCK
+        continue
+   else
+        echo not running on crave
+   fi
+
    echo no lock found. starting
    touch $REMOTE_BUSY_LOCK
    screen -dmS begin-wait bash begin.sh
