@@ -1,3 +1,16 @@
+#!/bin/bash
+
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ] ; then
+   echo ""
+   echo usage: hour minute dow
+   echo ""
+   echo hour = 24 hr format
+   echo dow = day of week. monday = 1 , sunday = 7
+   echo ""
+   exit 1
+fi 
+
+SECONDS=0
 
 source ../../etc/config.sh
 
@@ -5,15 +18,19 @@ if ! ls .repo ; then bash repo-init.sh ; fi
 
 IN_HOUR=$1
 IN_MIN=$2
+IN_DOW=$3
 
 while true; do
-   sleep 10
-#   sleep `shuf -n 1 -i 400-900`
-   if [ `date +%H` -ge $IN_HOUR ] && [ `date +%M` -ge $IN_MIN ] ; then 
+   if [ $SECONDS -gt 259200 ]; then
+      exit 1
+   fi
+   #sleep 10
+   sleep `shuf -n 1 -i 400-900`
+   if [ `date +%H` -ge $IN_HOUR ] && [ `date +%M` -ge $IN_MIN ] && [ `date +%u` -ge $IN_DOW ] ; then 
       echo sched reached. checking
       exit 0
    else
-      echo sched not reached. checking
+      echo sched not reached. waiting
       continue
    fi
    if ls $LOCK_FILE; then

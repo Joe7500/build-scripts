@@ -1,9 +1,15 @@
+#!/bin/bash
+
+SECONDS=0
 
 source ../../etc/config.sh
 
 if ! ls .repo ; then bash repo-init.sh ; fi
 
 while true; do
+   if [ $SECONDS -gt 259200 ]; then
+      exit 1
+   fi
    sleep `shuf -n 1 -i 400-900`
 #   sleep 20
 #   sleep 5
