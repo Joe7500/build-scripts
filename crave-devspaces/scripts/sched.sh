@@ -5,20 +5,21 @@ if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ] ; then
    echo usage: hour minute dow
    echo ""
    echo hour = 24 hr format
+   echo minute = 0-30. sleep interval is up to 15 minutes
    echo dow = day of week. monday = 1 , sunday = 7
    echo ""
    exit 1
 fi 
+
+IN_HOUR=$1
+IN_MIN=$2
+IN_DOW=$3
 
 SECONDS=0
 
 source ../../etc/config.sh
 
 if ! ls .repo ; then bash repo-init.sh ; fi
-
-IN_HOUR=$1
-IN_MIN=$2
-IN_DOW=$3
 
 while true; do
    if [ $SECONDS -gt 259200 ]; then
@@ -28,7 +29,8 @@ while true; do
    sleep `shuf -n 1 -i 400-900`
    if [ `date +%H` -ge $IN_HOUR ] && [ `date +%M` -ge $IN_MIN ] && [ `date +%u` -ge $IN_DOW ] ; then 
       echo sched reached. checking
-      exit 0
+      # Reset so minute matches always from now.
+      IN_MIN=1
    else
       echo sched not reached. waiting
       continue

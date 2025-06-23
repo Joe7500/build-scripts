@@ -15,6 +15,8 @@ source ../../etc/config.sh
 source ../../etc/secrets/telegram.sh
 source ../../etc/secrets/ntfy.sh
 
+cp -f ~/.gitconfig.bak.http ~/.gitconfig
+
 JJ_SPEC="JJ_SPEC:`date | md5sum | cut -d " " -f 1`"
 echo $JJ_SPEC
 

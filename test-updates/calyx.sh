@@ -24,11 +24,11 @@ test -z $(echo "$NEW_PATCH" | sed s/[0-9]//g) && echo "patch is integer" || exit
 
 UPDATE=0
 
-if [ $NEW_PATCH -gt $OLD_PATCH ]; then
-        echo update
-	if echo "$@" | grep update ; then echo $NEW_PATCH > ../OLD_VER_P_calyx; fi
-	UPDATE=1
-fi
+#if [ $NEW_PATCH -gt $OLD_PATCH ]; then
+#        echo update
+#	if echo "$@" | grep update ; then echo $NEW_PATCH > ../OLD_VER_P_calyx; fi
+#	UPDATE=1
+#fi
 
 if [ $NEW_MINOR -gt $OLD_MINOR ]; then
         echo update
