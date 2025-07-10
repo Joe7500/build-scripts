@@ -5,6 +5,8 @@
 #LAST_COMMIT=`cat LAST_COMMIT | head -1`
 #echo LAST $LAST_COMMIT
 
+# https://github.com/Joe7500/build-scripts
+
 cd lineage-21
 git switch lineage-22.2
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
