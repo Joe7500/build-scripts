@@ -22,7 +22,7 @@ main() {
     find .repo -name '*.lock' -delete
     repo sync $NETWORK -c -j$NUM_JOBS --force-sync --no-clone-bundle --no-tags --prune 2>&1 | tee /tmp/output.txt
 
-    if ! grep -qe "Failing repos:\|uncommitted changes are present" /tmp/output.txt ; then
+    if ! grep -qe "Failing repos\|uncommitted changes are present" /tmp/output.txt ; then
          echo "All repositories synchronized successfully."
          exit 0
     else
@@ -30,7 +30,7 @@ main() {
     fi
 
     # Check if there are any failing repositories
-    if grep -q "Failing repos:" /tmp/output.txt ; then
+    if grep -q "Failing repos" /tmp/output.txt ; then
         echo "Deleting failing repositories..."
         # Extract failing repositories from the error message and echo the deletion path
         while IFS= read -r line; do
@@ -43,7 +43,7 @@ main() {
             # Delete the repository
             rm -rf "$repo_path/$repo_name"
             rm -rf ".repo/project/$repo_path/$repo_name"/*.git
-        done <<< "$(cat /tmp/output.txt | awk '/Failing repos:/ {flag=1; next} /Try/ {flag=0} flag')"
+        done <<< "$(cat /tmp/output.txt | awk '/Failing repos.*:/ {flag=1; next} /Try/ {flag=0} flag' | sort -u)"
     fi
 
     # Check if there are any failing repositories due to uncommitted changes
