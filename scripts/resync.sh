@@ -20,7 +20,7 @@ repo --version
 main() {
     # Run repo sync command and capture the output
     find .repo -name '*.lock' -delete
-    repo sync $NETWORK -c -j$NUM_JOBS --force-sync --no-clone-bundle --no-tags --prune 2>&1 | tee /tmp/output.txt
+    repo sync $NETWORK -c -j$NUM_JOBS --force-sync --no-clone-bundle --no-tags --optimized-fetch --prune 2>&1 | tee /tmp/output.txt
 
     if ! grep -qe "Failing repos\|uncommitted changes are present" /tmp/output.txt ; then
          echo "All repositories synchronized successfully."
@@ -28,6 +28,12 @@ main() {
     else
         rm -f deleted_repositories.txt
     fi
+
+    if grep -q "Failing repos.*network" /tmp/output.txt ; then
+	    echo "Network errors found... Aborting!"
+	    echo "Please sync manualy."
+	    exit 1
+    fi	    
 
     # Check if there are any failing repositories
     if grep -q "Failing repos" /tmp/output.txt ; then
@@ -67,7 +73,7 @@ main() {
     # Re-sync all repositories after deletion
     echo "Re-syncing all repositories..."
     find .repo -name '*.lock' -delete
-    repo sync -c -j$NUM_JOBS --force-sync --no-clone-bundle --no-tags --prune
+    repo sync $NETWORK -c -j$NUM_JOBS --force-sync --no-clone-bundle --optimized-fetch --no-tags --prune
 }
 
 main $*
