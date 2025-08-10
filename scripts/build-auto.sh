@@ -27,12 +27,14 @@ for i in axion crDroidAndroid-14 crDroidAndroid-15 lineage-21 lineage-20 lineage
 	bash $i.sh
 	if [ $? -eq 0 ]; then
 		echo queue remote
-		touch $REMOTE_BUSY_LOCK
-		echo $i > $REMOTE_BUSY_LOCK
-		cd $CRAVE_ROOT/$i
-		screen -dmS build-remote bash begin.sh
-		ls $CRAVE_ROOT/$i
-		cd - 
+		if ! crave list | grep -i running; then
+			touch $REMOTE_BUSY_LOCK
+			echo $i > $REMOTE_BUSY_LOCK
+			cd $CRAVE_ROOT/$i
+			screen -dmS build-remote bash begin.sh
+			ls $CRAVE_ROOT/$i
+			cd -
+		fi 
 	fi
 done	
 

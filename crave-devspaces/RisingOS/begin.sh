@@ -1,1 +1,1 @@
-../scripts/begin.sh
+../scripts/begin-gapps.sh
