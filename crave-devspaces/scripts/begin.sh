@@ -70,14 +70,17 @@ curl -s -d "Build $PACKAGE_NAME on crave.io queued. `env TZ=Africa/Harare date`.
 
 screen -dmS check_progress bash check_progress.sh $JJ_SPEC $PACKAGE_NAME $GAPPS_BUILD
 
-# JJ_SPEC always last. eg. /usr/bin/bash builder.sh --resume GAPPS_BUILD JJ_SPEC:1234
-crave run $CLEAN --no-patch -- "repo init $PACKAGE_MANIFEST_ARGS; \
-rm -rf custom_scripts; \
-git clone https://github.com/Joe7500/build-scripts.git -b main custom_scripts; \
-cp -f custom_scripts/remote/$CRAVE_SCRIPT builder.sh; \
-rm -rf custom_scripts; \
-source build/envsetup.sh; \
+crave run $CLEAN --no-patch -- "/usr/bin/curl -o builder.sh -L https://raw.githubusercontent.com/Joe7500/build-scripts/refs/heads/main/remote/$CRAVE_SCRIPT; \
 /usr/bin/bash builder.sh $RESUME $DO_GAPPS_BUILD $JJ_SPEC "
+
+# JJ_SPEC always last. eg. /usr/bin/bash builder.sh --resume GAPPS_BUILD JJ_SPEC:1234
+#crave run $CLEAN --no-patch -- "repo init $PACKAGE_MANIFEST_ARGS; \
+#rm -rf custom_scripts; \
+#git clone https://github.com/Joe7500/build-scripts.git -b main custom_scripts; \
+#cp -f custom_scripts/remote/$CRAVE_SCRIPT builder.sh; \
+#rm -rf custom_scripts; \
+#source build/envsetup.sh; \
+#/usr/bin/bash builder.sh $RESUME $DO_GAPPS_BUILD $JJ_SPEC "
 
 echo -e "\\a" ; sleep 1 ; echo -e "\\a"
 sleep 86400
