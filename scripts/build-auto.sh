@@ -31,7 +31,11 @@ for i in axion crDroidAndroid-14 crDroidAndroid-15 lineage-21 lineage-20 lineage
 			touch $REMOTE_BUSY_LOCK
 			echo $i > $REMOTE_BUSY_LOCK
 			cd $CRAVE_ROOT/$i
-			screen -dmS build-remote bash begin.sh
+			if echo $i | grep -iE "risingos"; then
+				screen -dmS build-remote bash begin.sh DO_GAPPS_BUILD
+			else
+				screen -dmS build-remote bash begin.sh
+			fi
 			ls $CRAVE_ROOT/$i
 			cd -
 		fi 

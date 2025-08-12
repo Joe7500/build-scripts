@@ -17,10 +17,9 @@ set -v
 
 echo $JJ_SPEC
 
-#if false; then
 while true; do
 	MESSAGES=`curl -s "$NTFY_URL/json?poll=1" | jq | grep '"message":' | grep "crave\.io" | grep -- "$JJ_SPEC"`
-	if echo $MESSAGES | grep -- "$JJ_SPEC" | grep queued ; then
+	if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep queued ; then
 		echo job is queued
 		sleep 5
 		break	
@@ -28,25 +27,24 @@ while true; do
 	sleep 300
 	if [ $SECONDS -gt 86400 ]; then exit 1 ; fi
 done
-#fi
 
 while true; do
 	echo checking.
         MESSAGES=`curl -s "$NTFY_URL/json?poll=1" | jq | grep '"message":' | grep "crave\.io" | grep -- "$JJ_SPEC"` 
-	if echo $MESSAGES | grep -- "$JJ_SPEC" | grep " started" ; then
+	if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " started" ; then
                 echo job is started
         fi
-        if echo $MESSAGES | grep -- "$JJ_SPEC" | grep " failed" ; then
+        if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " failed" ; then
                 echo job is failed
 		FAILED=1
 		break
         fi
-        if echo $MESSAGES | grep -- "$JJ_SPEC" | grep " softfailed" ; then
+        if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " softfailed" ; then
                 echo job is softfailed
 		FAILED=1
 		break
         fi
-        if echo $MESSAGES | grep -- "$JJ_SPEC" | grep completed ; then
+        if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep completed ; then
                 echo job is completed
 		TIME_TAKEN=`printf '%dh:%dm:%ds\n' $((SECONDS/3600)) $((SECONDS%3600/60)) $((SECONDS%60))`
 		curl -s -X POST $URL -d chat_id=$ID -d text="Build $PACKAGE_NAME on crave.io total time taken: $TIME_TAKEN. `env TZ=Africa/Harare date`. $JJ_SPEC "
@@ -70,9 +68,11 @@ done
 WAIT_FOR_GAPPS_TO_START=1
 while true; do
 	if [ $FAILED -eq 1 ]; then
+		echo job failed
 		break
 	fi
-	if ! echo "$@" | grep GAPPS_BUILD ; then 
+	if ! echo "$@" | grep GAPPS_BUILD ; then
+		echo not GAPPS build 
 		break
 	fi
 	touch $REMOTE_BUSY_LOCK
@@ -83,28 +83,28 @@ while true; do
 		WAIT_FOR_GAPPS_TO_START=0
 	fi
         MESSAGES=`curl -s "$NTFY_URL/json?poll=1" | jq | grep '"message":' | grep "crave\.io" | grep -- "$JJ_SPEC"`
-        if ! echo $MESSAGES | grep -- "$JJ_SPEC" | grep -iE " started| queued" | grep -i -- "- gapps"; then
+        if ! echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep -iE " started| queued" | grep -i -- "- gapps"; then
 		if ! echo $GAPPS_BUILD_STARTED | grep started ; then
                 	echo job not queued or started. trying to start now.
-			screen -dmS build-remote bash begin.sh --resume GAPPS_BUILD $JJ_SPEC
+			screen -dmS build-remote bash begin.sh --resume START_GAPPS_BUILD $JJ_SPEC
 			curl -s -d "Build $PACKAGE_NAME on crave.io queued. - gapps `env TZ=Africa/Harare date`. $JJ_SPEC " $NTFY_URL
 			GAPPS_BUILD_STARTED=started
 		fi
         fi
-        if echo $MESSAGES | grep -- "$JJ_SPEC" | grep " started. - gapps" | grep -i -- "- gapps"; then
+        if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " started" | grep -i -- "- gapps"; then
                 echo job is started
         fi
-        if echo $MESSAGES | grep -- "$JJ_SPEC" | grep " failed. - gapps" | grep -i -- "- gapps"; then
+        if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " failed" | grep -i -- "- gapps"; then
                 echo job is failed
                 FAILED=1
                 break
         fi
-        if echo $MESSAGES | grep -- "$JJ_SPEC" | grep " softfailed. - gapps" | grep -i -- "- gapps"; then
+        if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " softfailed" | grep -i -- "- gapps"; then
                 echo job is softfailed
                 FAILED=1
                 break
         fi
-        if echo $MESSAGES | grep -- "$JJ_SPEC" | grep "completed. - gapps" | grep -i -- "- gapps"; then
+        if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep "completed" | grep -i -- "- gapps"; then
                 echo job is completed
                 TIME_TAKEN=`printf '%dh:%dm:%ds\n' $((SECONDS/3600)) $((SECONDS%3600/60)) $((SECONDS%60))`
                 curl -s -X POST $URL -d chat_id=$ID -d text="Build $PACKAGE_NAME on crave.io total time taken: $TIME_TAKEN. `env TZ=Africa/Harare date`. $JJ_SPEC "

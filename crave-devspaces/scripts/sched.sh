@@ -22,15 +22,18 @@ source ../../etc/config.sh
 if ! ls .repo ; then bash repo-init.sh ; fi
 
 while true; do
-   if [ $SECONDS -gt 259200 ]; then
+   # 7 days
+   if [ $SECONDS -gt 604800 ]; then
       exit 1
    fi
-   #sleep 10
-   sleep `shuf -n 1 -i 400-900`
+   # 5 to 15 minutes
+   sleep `shuf -n 1 -i 300-900`
    if [ `date +%H` -ge $IN_HOUR ] && [ `date +%M` -ge $IN_MIN ] && [ `date +%u` -ge $IN_DOW ] ; then 
       echo sched reached. checking
-      # Reset so minute matches always from now.
-      IN_MIN=1
+      # Reset to zero so sched matches always from now.
+      IN_MIN=0
+      IN_HOUR=0
+      IN_DAY=0
    else
       echo sched not reached. waiting
       continue

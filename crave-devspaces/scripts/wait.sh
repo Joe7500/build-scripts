@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Waits to start job, checking for locks and crave list.
+
 SECONDS=0
 
 source ../../etc/config.sh
@@ -7,12 +9,12 @@ source ../../etc/config.sh
 if ! ls .repo ; then bash repo-init.sh ; fi
 
 while true; do
+   # 3 days
    if [ $SECONDS -gt 259200 ]; then
       exit 1
    fi
-   sleep `shuf -n 1 -i 400-900`
-#   sleep 20
-#   sleep 5
+   # 60 to 90 minutes
+   sleep `shuf -n 1 -i 3600-5400`
    if ls $LOCK_FILE; then
         echo locked
 	continue
