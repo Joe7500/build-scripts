@@ -18,7 +18,7 @@ source ../../etc/secrets/ntfy.sh
 cp -f ~/.gitconfig.bak.http ~/.gitconfig
 
 if ls $REMOTE_BUSY_LOCK ; then 
-        echo "======================================================="
+    echo "======================================================="
 	echo "hhmmm. lock file exists: $REMOTE_BUSY_LOCK. You sure? "
 	echo "======================================================="
 	echo ""
