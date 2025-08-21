@@ -21,7 +21,8 @@ echo running - `date` >> $LOG_ROOT/build-auto.log
 
 cd $TEST_UPDATES_ROOT
 
-for i in axion crDroidAndroid-14 crDroidAndroid-15 lineage-21 lineage-20 lineage-22 RisingOS calyx ; do
+# missing: clayx
+for i in axion crDroidAndroid-14 crDroidAndroid-15 lineage-21 lineage-20 lineage-22 RisingOS ; do
 	cd $TEST_UPDATES_ROOT
 	if ls $REMOTE_BUSY_LOCK ; then echo "skipping $i" ; continue ; fi
 	bash $i.sh
