@@ -1,40 +1,41 @@
 #!/bin/bash
+# git clone https://github.com/LineageOS/android_build_release build
+# git clone https://github.com/LineageOS/android_build_release build-release
 
-cd lineage-21
+cd lineage
+cd build
 git switch lineage-21.0
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
 git pull --rebase
-git pull
 if [ $? -ne 0 ]; then echo git pull failed; exit 1; fi
+BUILD_ID_TEST=`cat core/build_id.mk | grep BUILD_ID=`
+if [ $? -ne 0 ]; then echo get BUILD_ID_TEST failed; exit 1; fi
+BUILD_ID=`echo "$BUILD_ID_TEST" | cut -d "=" -f 2 | cut -d "." -f 1 | tr '[:upper:]' '[:lower:]'`
+cd -
 
-CURRENT_COMMIT=`git log --format=format:%H | head -1`
-echo $CURRENT_COMMIT > ../CURRENT_COMMIT_lineage-21
-LAST_COMMIT=`cat ../LAST_COMMIT_lineage-21 | head -1 `
+cd build-release
+git switch lineage-21.0
+if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
+git pull --rebase
+if [ $? -ne 0 ]; then echo git pull failed; exit 1; fi
+BUILD_RELEASE_TEST=`cat flag_values/$BUILD_ID/RELEASE_PLATFORM_SECURITY_PATCH.textproto | grep string_value:`
+if [ $? -ne 0 ]; then echo get BUILD_RELEASE_TEST failed; exit 1; fi
+BUILD_RELEASE=`echo "$BUILD_RELEASE_TEST" | cut -d '"' -f 2`
+cd -
 
-echo LAST $LAST_COMMIT
-echo LATEST $CURRENT_COMMIT
+LAST_RELEASE=`cat ../LAST_RELEASE_lineage-21`
 
-if [ "$CURRENT_COMMIT" == "$LAST_COMMIT" ]; then
-	echo not update
-	exit 1
+echo BUILD_RELEASE $BUILD_RELEASE
+echo LAST_RELEASE $LAST_RELEASE
+
+if [ "$BUILD_RELEASE" == "$LAST_RELEASE" ]; then
+   echo not update
+   exit 1
 else
-	NEW_COMMITS=`git log --format=format:%H | head -9`
-	for i in $NEW_COMMITS; do
-		if [ "$i" == "$LAST_COMMIT" ]; then
-			echo found last commit
-			echo $CURRENT_COMMIT > ../LAST_COMMIT_lineage-21
-			exit 1 
-		else
-			git show -q $i > ../commit_msg.txt
-			cat ../commit_msg.txt | grep -iE 'quarter|security|asb|cve|qpr'
-			if [ $? -eq 0 ]; then
-				if echo "$@" | grep update ; then  echo $CURRENT_COMMIT > ../LAST_COMMIT_lineage-21; fi
-				echo update
-				exit 0
-			fi
-		fi
-	done
+   echo update
+   if echo "$@" | grep update ; then  echo "$BUILD_RELEASE" > ../LAST_RELEASE_lineage-21; fi
+   exit 0
 fi
 
+cd ..
 exit 1
-

@@ -1,8 +1,9 @@
 #!/bin/bash
+# git clone https://github.com/AxionAOSP/android_vendor_lineage axion
 
 cd axion
 
-git switch lineage-22.2
+git switch lineage-23.0
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
 git pull --rebase
 if [ $? -ne 0 ]; then echo git pull failed; exit 1; fi
@@ -16,6 +17,11 @@ echo old $OLD_VER
 # test for integer
 test -z $(echo "$OLD_VER" | sed s/[0-9]//g) && echo "old is integer" || exit 1
 test -z $(echo "$NEW_VER" | sed s/[0-9]//g) && echo "new is integer" || exit 1
+
+if cat config/version.mk  | grep -iE 'alpha|beta'; then
+	echo not update. beta
+	exit 1
+fi
 
 if [ $NEW_VER -gt $OLD_VER ]; then
         echo update
