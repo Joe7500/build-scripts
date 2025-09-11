@@ -1,5 +1,5 @@
 #!/bin/bash
-# git clone https://github.com/LineageOS/android_build_release build
+# git clone https://github.com/LineageOS/android_build build
 # git clone https://github.com/LineageOS/android_build_release build-release
 
 cd lineage

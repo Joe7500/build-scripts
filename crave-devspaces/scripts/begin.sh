@@ -64,6 +64,7 @@ touch $REMOTE_BUSY_LOCK
 curl -s -X POST $URL -d chat_id=$ID -d text="Build $PACKAGE_NAME on crave.io queued. `env TZ=Africa/Harare date`. $JJ_SPEC "
 curl -s -d "Build $PACKAGE_NAME on crave.io queued. `env TZ=Africa/Harare date`. $JJ_SPEC " $NTFY_URL
 
+# If called from check_progress with START_GAPPS_BUILD, no need to start it again.
 if ! echo "$@" | grep START_GAPPS_BUILD ; then
 	screen -dmS check_progress bash check_progress.sh $JJ_SPEC $PACKAGE_NAME $DO_GAPPS_BUILD
 fi
