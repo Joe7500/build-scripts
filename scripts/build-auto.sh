@@ -27,7 +27,7 @@ echo running - `date` >> $LOG_ROOT/build-auto.log
 
 cd $TEST_UPDATES_ROOT
 
-for i in axion crDroidAndroid-14 crDroidAndroid-15 lineage-21 lineage-20 lineage-22 ; do
+for i in axion crDroidAndroid-14 crDroidAndroid-15 crDroidAndroid-16 lineage-21 lineage-20 lineage-22 ; do
    cd $TEST_UPDATES_ROOT
    bash $i.sh
    if [ $? -eq 0 ]; then
@@ -39,6 +39,10 @@ for i in axion crDroidAndroid-14 crDroidAndroid-15 lineage-21 lineage-20 lineage
          screen -dmS build-remote bash begin.sh
          rm $LOCK_FILE
 	 exit 0
+      else
+         echo job already queued or running. abort
+         rm $LOCK_FILE
+         exit 0
       fi
    fi
 done
@@ -57,6 +61,9 @@ for i in RisingOS ; do
          echo $i > $REMOTE_BUSY_LOCK
          cd $CRAVE_ROOT/$i
 #         screen -dmS build-remote bash begin.sh DO_GAPPS_BUILD
+         rm $LOCK_FILE
+         exit 0
+      else
          rm $LOCK_FILE
          exit 0
       fi
