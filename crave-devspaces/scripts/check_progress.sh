@@ -130,6 +130,7 @@ done
 sleep 600
 cd $SCRIPT_ROOT/
 bash build-auto.sh
+cd -
 
 sleep 86400
 
