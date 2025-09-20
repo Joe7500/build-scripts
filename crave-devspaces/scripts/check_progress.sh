@@ -127,6 +127,10 @@ while true; do
    fi
 done
 
+sleep 600
+cd $SCRIPT_ROOT/
+bash build-auto.sh
+
 sleep 86400
 
 exit 0
