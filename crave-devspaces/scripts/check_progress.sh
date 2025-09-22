@@ -56,6 +56,8 @@ while true; do
       bash $PACKAGE_NAME.sh --update
       cd -
       # Do further stuff here
+      DL_URL=$(curl -s "$NTFY_URL/json?poll=1" | jq | grep -- "$JJ_SPEC" | grep -Po '(https://.*/.* )' | cut -d" " -f 1)
+      curl -s -X POST $URL -d chat_id="$ALT_ID" -d text="$DL_URL"
 
       rm -f $REMOTE_BUSY_LOCK
       break
@@ -116,6 +118,8 @@ while true; do
       bash $PACKAGE_NAME.sh --update
       cd -
       # Do further stuff here
+      DL_URL=$(curl -s "$NTFY_URL/json?poll=1" | jq | grep -- "$JJ_SPEC" | grep -Po '(https://.*/.* )' | cut -d" " -f 1)
+      curl -s -X POST $URL -d chat_id="$ALT_ID" -d text="$DL_URL"
 
       rm -f $REMOTE_BUSY_LOCK
       break
@@ -127,7 +131,7 @@ while true; do
    fi
 done
 
-sleep 600
+sleep 3600
 cd $SCRIPT_ROOT/
 bash build-auto.sh
 cd -
