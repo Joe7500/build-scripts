@@ -9,7 +9,6 @@ cd build
 git switch lineage-20.0
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
 git pull --rebase
-if [ $? -ne 0 ]; then echo git pull failed; exit 1; fi
 BUILD_RELEASE_TEST=`cat core/version_defaults.mk | grep 'PLATFORM_SECURITY_PATCH := '`
 if [ $? -ne 0 ]; then echo get BUILD_RELEASE_TEST failed; exit 1; fi
 BUILD_RELEASE=`echo "$BUILD_RELEASE_TEST" | sed -e 's/ //g' | cut -d "=" -f 2`
@@ -37,10 +36,6 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 git pull --rebase
-if [ $? -ne 0 ]; then
-   echo git pull failed
-   exit 1
-fi
 
 CURRENT_COMMIT=$(git log --format=format:%H | head -1)
 echo CURRENT $CURRENT_COMMIT

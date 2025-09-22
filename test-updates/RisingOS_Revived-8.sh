@@ -3,10 +3,9 @@
 cd rising
 
 #git switch fifteen
-git switch qpr2
+git switch sixteen
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
 git pull --rebase
-if [ $? -ne 0 ]; then echo git pull failed; exit 1; fi
 
 NEW_VER=`cat config/version.mk | grep 'RISING_VERSION :=' | md5sum | cut -d " " -f 1`
 OLD_VER=`cat ../OLD_VER_rising-6 | cut -d " " -f 1`

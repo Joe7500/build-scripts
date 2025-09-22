@@ -13,10 +13,6 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 git pull --rebase
-if [ $? -ne 0 ]; then
-   echo git pull failed
-   exit 1
-fi
 BUILD_ID_TEST=$(cat core/build_id.mk | grep BUILD_ID=)
 if [ $? -ne 0 ]; then
    echo get BUILD_ID_TEST failed
@@ -32,10 +28,6 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 git pull --rebase
-if [ $? -ne 0 ]; then
-   echo git pull failed
-   exit 1
-fi
 BUILD_RELEASE_TEST=$(cat flag_values/$BUILD_ID/RELEASE_PLATFORM_SECURITY_PATCH.textproto | grep string_value:)
 if [ $? -ne 0 ]; then
    echo get BUILD_RELEASE_TEST failed
@@ -66,10 +58,6 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 git pull --rebase
-if [ $? -ne 0 ]; then
-   echo git pull failed
-   exit 1
-fi
 
 CURRENT_COMMIT=$(git log --format=format:%H | head -1)
 echo CURRENT $CURRENT_COMMIT

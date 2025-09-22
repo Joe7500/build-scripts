@@ -6,7 +6,6 @@ cd axion
 git switch lineage-23.0
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
 git pull --rebase
-if [ $? -ne 0 ]; then echo git pull failed; exit 1; fi
 
 NEW_VER=`cat config/version.mk | grep "PRODUCT_VERSION_MINOR =" | cut -d " " -f 3`
 OLD_VER=`cat ../OLD_VER_axion`

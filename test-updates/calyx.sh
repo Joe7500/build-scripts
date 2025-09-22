@@ -5,7 +5,6 @@ cd calyx
 git switch android15-qpr2
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
 git pull --rebase
-if [ $? -ne 0 ]; then echo git pull failed; exit 1; fi
 
 NEW_MINOR=`cat config/version.mk | grep "PRODUCT_VERSION_MINOR :=" | cut -d " " -f 3`
 NEW_PATCH=`cat config/version.mk | grep "PRODUCT_VERSION_PATCH :=" | cut -d " " -f 3`

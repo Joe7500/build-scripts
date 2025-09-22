@@ -6,7 +6,6 @@ cd crDroid
 git switch 14.0
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
 git pull --rebase
-if [ $? -ne 0 ]; then echo git pull failed; exit 1; fi
 
 NEW_VER=`cat config/version.mk | grep "CR_VERSION :"| cut -d . -f 2`
 OLD_VER=`cat ../OLD_VER_crdroid-10`

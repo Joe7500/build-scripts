@@ -11,7 +11,6 @@ git switch $GIT_BRANCH
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
 git pull --rebase
 git pull
-if [ $? -ne 0 ]; then echo git pull failed; exit 1; fi
 
 NEW_VER=`cat config/version.mk | grep "CR_VERSION :"| cut -d . -f 2`
 OLD_VER=`cat ../OLD_VER_$NAME`
