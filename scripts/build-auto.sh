@@ -47,9 +47,8 @@ for i in axion crDroidAndroid-14 crDroidAndroid-15 crDroidAndroid-16 lineage-21 
    fi
 done
 
-rm $LOCK_FILE
-exit 0
-
+#rm $LOCK_FILE
+#exit 0
 
 for i in RisingOS_Revived-8 ; do
    cd $TEST_UPDATES_ROOT
@@ -60,7 +59,7 @@ for i in RisingOS_Revived-8 ; do
          touch $REMOTE_BUSY_LOCK
          echo $i > $REMOTE_BUSY_LOCK
          cd $CRAVE_ROOT/$i
-#         screen -dmS build-remote bash begin.sh DO_GAPPS_BUILD
+         screen -dmS build-remote bash begin.sh DO_GAPPS_BUILD
          rm $LOCK_FILE
          exit 0
       else
@@ -71,5 +70,4 @@ for i in RisingOS_Revived-8 ; do
 done
 
 rm $LOCK_FILE
-
 exit 0
