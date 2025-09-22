@@ -50,7 +50,7 @@ done
 #rm $LOCK_FILE
 #exit 0
 
-for i in RisingOS_Revived-8 ; do
+for i in RisingOS_Revived-8 Project_Infinity-X-3; do
    cd $TEST_UPDATES_ROOT
    bash $i.sh
    if [ $? -eq 0 ]; then
