@@ -69,6 +69,7 @@ while true; do
    fi
 done
 
+JJ_SPEC="JJ_SPEC:`date | md5sum | cut -d " " -f 1`"
 WAIT_FOR_GAPPS_TO_START=1
 while true; do
    if [ $FAILED -eq 1 ]; then
@@ -87,7 +88,7 @@ while true; do
       WAIT_FOR_GAPPS_TO_START=0
    fi
    MESSAGES=$(curl -s "$NTFY_URL/json?poll=1" | jq | grep '"message":' | grep "crave\.io" | grep -- "$JJ_SPEC")
-   if ! echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep -iE " started| queued" | grep -i -- "- gapps"; then
+   if ! echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep -iE " started| queued"; then
       if ! echo $GAPPS_BUILD_STARTED | grep started; then
          echo job not queued or started. trying to start now.
          screen -dmS build-remote bash begin.sh --resume START_GAPPS_BUILD $JJ_SPEC
@@ -95,20 +96,20 @@ while true; do
          GAPPS_BUILD_STARTED=started
       fi
    fi
-   if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " started" | grep -i -- "- gapps"; then
+   if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " started" ; then
       echo job is started
    fi
-   if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " failed" | grep -i -- "- gapps"; then
+   if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " failed" ; then
       echo job is failed
       FAILED=1
       break
    fi
-   if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " softfailed" | grep -i -- "- gapps"; then
+   if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep " softfailed" ; then
       echo job is softfailed
       FAILED=1
       break
    fi
-   if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep "completed" | grep -i -- "- gapps"; then
+   if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep "completed" ; then
       echo job is completed
       TIME_TAKEN=$(printf '%dh:%dm:%ds\n' $((SECONDS / 3600)) $((SECONDS % 3600 / 60)) $((SECONDS % 60)))
       curl -s -X POST $URL -d chat_id=$ID -d text="Build $PACKAGE_NAME on crave.io total time taken: $TIME_TAKEN. $(date). $JJ_SPEC "
