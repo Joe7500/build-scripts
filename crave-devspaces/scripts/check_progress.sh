@@ -132,6 +132,13 @@ while true; do
    fi
 done
 
+if [ $FAILED -eq 1 ]; then
+   echo job failed
+   sleep 86400
+   exit 1
+fi
+
+
 sleep 3600
 cd $SCRIPT_ROOT/
 bash build-auto.sh
