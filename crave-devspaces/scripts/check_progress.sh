@@ -19,6 +19,8 @@ set -v
 
 echo $JJ_SPEC
 
+FAILED=0
+
 while true; do
    MESSAGES=$(curl -s "$NTFY_URL/json?poll=1" | jq | grep '"message":' | grep "crave\.io" | grep -- "$JJ_SPEC")
    if echo "$MESSAGES" | grep -- "$JJ_SPEC" | grep queued; then
