@@ -94,7 +94,8 @@ while true; do
       if ! echo $GAPPS_BUILD_STARTED | grep started; then
          echo job not queued or started. trying to start now.
          screen -dmS build-remote bash begin.sh --resume START_GAPPS_BUILD $JJ_SPEC
-         curl -s -d "Build $PACKAGE_NAME on crave.io queued. - gapps $(date). $JJ_SPEC " $NTFY_URL
+         curl -s -d "Build $PACKAGE_NAME on crave.io queued. - GAPPS - $(date). $JJ_SPEC " $NTFY_URL
+         curl -s -X POST $URL -d chat_id=$ID -d text="Build $PACKAGE_NAME on crave.io queued. - GAPPS - $(date). $JJ_SPEC " 
          GAPPS_BUILD_STARTED=started
       fi
    fi
