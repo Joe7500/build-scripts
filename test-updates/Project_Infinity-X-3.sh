@@ -19,7 +19,7 @@ test -z $(echo "$NEW_VER" | sed s/[0-9]//g) && echo "new is integer" || exit 1
 
 if [ $NEW_VER -gt $OLD_VER ]; then
         echo update
-	if echo "$@" | grep update ; then echo $NEW_VER > ../OLD_VER_crdroid-11; fi
+	if echo "$@" | grep update ; then echo $NEW_VER > ../OLD_VER_infinity-16; fi
 	exit 0
 else
 	echo not update
