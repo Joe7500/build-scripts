@@ -29,10 +29,13 @@ cd $TEST_UPDATES_ROOT
 
 for i in axion crDroidAndroid-14 crDroidAndroid-15 crDroidAndroid-16 lineage-21 lineage-20 lineage-22 voltage voltage-5; do
    cd $TEST_UPDATES_ROOT
+   echo $i
    bash $i.sh
    if [ $? -eq 0 ]; then
       echo queue remote
-      if ! crave list | grep -iE 'queued|running'; then
+      if echo $@ | grep 'testrun' ;then
+         echo ______________ UPDATE $i
+      elif ! crave list | grep -iE 'queued|running'; then
          touch $REMOTE_BUSY_LOCK
          echo $i > $REMOTE_BUSY_LOCK
          cd $CRAVE_ROOT/$i
@@ -52,10 +55,13 @@ done
 
 for i in RisingOS_Revived-8 Project_Infinity-X-3; do
    cd $TEST_UPDATES_ROOT
+   echo $i
    bash $i.sh
    if [ $? -eq 0 ]; then
       echo queue remote
-      if ! crave list | grep -iE 'queued|running'; then
+      if echo $@ | grep 'testrun' ;then
+         echo ______________ UPDATE $i
+      elif ! crave list | grep -iE 'queued|running'; then
          touch $REMOTE_BUSY_LOCK
          echo $i > $REMOTE_BUSY_LOCK
          cd $CRAVE_ROOT/$i
