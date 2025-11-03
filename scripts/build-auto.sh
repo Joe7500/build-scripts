@@ -18,8 +18,13 @@ if ls $LOCK_FILE; then
    exit 1
 fi
 if ls $REMOTE_BUSY_LOCK; then
-   echo remote build is already running
-   exit 1
+   if screen -ls | grep "No Sockets"; then
+      echo weird no screens
+      rm -f $REMOTE_BUSY_LOCK
+   else   
+      echo remote build is already running
+      exit 1
+   fi
 fi
 echo $$ > $LOCK_FILE
 
