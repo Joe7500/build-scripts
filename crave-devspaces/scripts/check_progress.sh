@@ -60,6 +60,8 @@ while true; do
       # Do further stuff here
       DL_URL=$(curl -s "$NTFY_URL/json?poll=1" | jq | grep -- "$JJ_SPEC" | grep -Po '(https://.*/.* )' | cut -d" " -f 1)
       curl -s -X POST $URL -d chat_id="$ALT_ID" -d text="$DL_URL"
+      FILENAME=$(curl -s "$NTFY_URL/json?poll=1" | jq | grep -- "$JJ_SPEC" | grep '"message":' | grep pixeldrain.com | tail -1 | awk '{print $3}')
+      echo $FILENAME
 
       rm -f $REMOTE_BUSY_LOCK
       break
