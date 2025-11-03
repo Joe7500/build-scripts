@@ -2,6 +2,8 @@
 # git clone https://github.com/LineageOS/android_build build
 # git clone https://github.com/LineageOS/android_build_release build-release
 # git clone https://github.com/LineageOS/android android
+# lineage-23 https://github.com/LineageOS/android_vendor_lineage
+#     release/flag_values/bp2a/RELEASE_PLATFORM_SECURITY_PATCH.textproto
 
 UPDATE=0
 
