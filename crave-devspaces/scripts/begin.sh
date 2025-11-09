@@ -36,6 +36,7 @@ if echo "$@" | grep clean ; then CLEAN='--clean' ; fi
 if echo "$@" | grep resume ; then RESUME='--resume' ; fi
 if echo "$@" | grep DO_GAPPS_BUILD ; then DO_GAPPS_BUILD=GAPPS_BUILD ; echo DO_GAPPS_BUILD; fi
 if echo "$@" | grep START_GAPPS_BUILD ; then START_GAPPS_BUILD=GAPPS_BUILD ; echo START_GAPPS_BUILD; fi
+if echo "$@" | grep CONTINUE ; then CONTINUE=CONTINUE ; echo CONTINUE; fi
 
 echo -e "\\a" ; sleep 1 ; echo -e "\\a"
 echo ""
@@ -82,7 +83,7 @@ fi
 #exit
 
 crave run $CLEAN --no-patch -- "/usr/bin/curl -o builder.sh -L https://raw.githubusercontent.com/Joe7500/build-scripts/refs/heads/main/remote/$CRAVE_SCRIPT; \
-/usr/bin/bash builder.sh $RESUME $START_GAPPS_BUILD $JJ_SPEC "
+/usr/bin/bash builder.sh $RESUME $START_GAPPS_BUILD $CONTINUE $JJ_SPEC "
 
 echo -e "\\a" ; sleep 1 ; echo -e "\\a"
 sleep 86400
