@@ -3,7 +3,8 @@
 
 cd axion
 
-git switch lineage-23.0
+git pull --rebase
+git switch lineage-23.1
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
 git pull --rebase
 
