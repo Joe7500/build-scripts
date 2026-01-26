@@ -3,7 +3,7 @@
 
 cd voltage
 
-git switch 16
+git switch 16.2
 if [ $? -ne 0 ]; then echo git switch failed; exit 1; fi
 git pull --rebase
 
