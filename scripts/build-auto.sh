@@ -33,7 +33,7 @@ echo running - `date` >> $LOG_ROOT/build-auto.log
 
 cd $TEST_UPDATES_ROOT
 
-for i in axion crDroidAndroid-14 crDroidAndroid-15 crDroidAndroid-16 lineage-21 lineage-20 lineage-22 lineage-23 voltage-5; do
+for i in crDroidAndroid-14 crDroidAndroid-15 crDroidAndroid-16 lineage-21 lineage-20 lineage-22 lineage-23 voltage-5 axion; do
    cd $TEST_UPDATES_ROOT
    echo $i
    bash $i.sh
